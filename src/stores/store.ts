@@ -4,4 +4,4 @@ import { reducers } from './reducers';
 export const store = configureStore({
     reducer: reducers,
 });
-export type AppDispatch = typeof store.dispatch 
+export type AppDispatch = typeof store.dispatch;
