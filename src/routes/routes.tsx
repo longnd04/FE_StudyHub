@@ -7,6 +7,7 @@ import ForgotPassword from '@/pages/ForgotPassword/ForgotPassword';
 import Home from '@/pages/Home/Home';
 import Login from '@/pages/Login/Login';
 import Register from '@/pages/Register/Register';
+import Verify from '@/pages/Verify/Verify';
 
 export const routes: IRoute[] = [
     {
@@ -28,6 +29,10 @@ export const routes: IRoute[] = [
             {
                 path: '/forgotpassword',
                 element: () => <ForgotPassword />,
+            },
+            {
+                path: '/verify',
+                element: () => <Verify />,
             },
             {
                 path: '/admin',

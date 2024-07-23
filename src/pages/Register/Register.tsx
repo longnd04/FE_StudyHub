@@ -1,4 +1,4 @@
-import logoF8 from "@/assets/images/logo_f8.png";
+import { images } from "@/assets/images";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
 
@@ -6,7 +6,7 @@ const Register = () => {
     return (
         <div className="flex h-screen bg-gray-100 items-center justify-center">
             <div className="flex flex-col items-center bg-white w-[500px] p-10 rounded-xl gap-4 shadow-md">
-                <img src={logoF8} className="w-[50px] rounded-lg" alt="Logo" />
+                <img src={images.logoF8} className="w-[50px] rounded-lg" alt="Logo" />
                 <div className="text-3xl font-bold">Đăng ký tài khoản Study Hub</div>
                 <div className="text-center text-sm text-red-500">
                     Mỗi người nên sử dụng một tài khoản, tài khoản nhiều người sử dụng chung sẽ bị khóa
