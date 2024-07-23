@@ -44,7 +44,7 @@ const Register = () => {
                     <div>Bạn đã có tài khoản?
                         <Link className="text-orange-500 underline cursor-pointer ml-1" to={"/login"}>Đăng nhập</Link>
                     </div>
-                    <div className="text-orange-500 underline">Quên mật khẩu</div>
+                    <Link className="text-orange-500 underline" to={"/forgotpassword"}>Quên mật khẩu</Link>
                     <div className="mt-2 text-sm text-gray-500">
                         Việc bạn tiếp tục sử dụng trang web này đồng nghĩa bạn đồng ý với
                         <span className="text-orange-500 underline px-1 cursor-pointer">điều khoản sử dụng</span>của chúng tôi.

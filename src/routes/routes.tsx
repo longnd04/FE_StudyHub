@@ -3,6 +3,7 @@ import AuthMiddleware from '@/middlewares/AuthMiddleware';
 import { IRoute } from '@/models/shared/routes.model';
 import Dashboard from '@/pages/admin/Dashboard/Dashboard';
 import Products from '@/pages/admin/Products/Products';
+import ForgotPassword from '@/pages/ForgotPassword/ForgotPassword';
 import Home from '@/pages/Home/Home';
 import Login from '@/pages/Login/Login';
 import Register from '@/pages/Register/Register';
@@ -23,6 +24,10 @@ export const routes: IRoute[] = [
             {
                 path: '/register',
                 element: Register,
+            },
+            {
+                path: '/forgotpassword',
+                element: () => <ForgotPassword />,
             },
             {
                 path: '/admin',
