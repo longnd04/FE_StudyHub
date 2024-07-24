@@ -9,6 +9,7 @@ import { RxComponentNone } from 'react-icons/rx';
 import { GoDeviceCameraVideo } from 'react-icons/go';
 import { images } from '@/assets/images';
 import { IoIosNotificationsOutline } from 'react-icons/io';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 const { Content, Footer, Sider } = Layout;
 
@@ -80,6 +81,7 @@ const DefaultLayout = () => {
         {
             id: '4',
             label: 'Component',
+            path: "/admin/components",
             icon: <RxComponentNone size={25} />,
         },
     ];
@@ -119,18 +121,38 @@ const DefaultLayout = () => {
 
     return (
         <ConfigProvider theme={theme}>
-            <Layout className="min-h-screen">
-                <Sider className='border-r' theme="light" width={300} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-                    <div className="flex items-center gap-3 p-3">
-                        <img className="w-[50px] h-[50px] rounded-xl" src={logoF8} alt="logo" />
-                        {!collapsed && <div className="text-2xl font-semibold text-orange-500">Study Hub</div>}
-                    </div>
-                    <Menu className='pt-3 flex flex-col gap-2' defaultSelectedKeys={['1']} mode="inline">
-                        {renderMenuItems(menuItems)}
-                    </Menu>
-                </Sider>
-                <Layout>
-                    <div className='p-[7px] h-[70px] justify-end  px-10 flex items-center bg-white gap-[30px] border-b'>
+            <div className="flex h-screen overflow-hidden">
+                <div className="relative " style={{
+                    width: collapsed ? 80 : 300,
+                    transition: 'width 0.3s ease'
+                }}>
+                    <Sider 
+                        className='h-full border-r flex flex-col'
+                        theme="light" 
+                        width={300}
+                        collapsed={collapsed}
+                        collapsible
+                        trigger={null}
+                    >
+                        <div className="flex-grow">
+                            <div className="flex items-center gap-3 p-3 ">
+                                <img className="w-[50px] h-[50px] rounded-xl" src={logoF8} alt="logo" />
+                                {!collapsed && <div className="text-2xl font-semibold text-primary-500">Study Hub</div>}
+                            </div>
+                            <Menu className='pt-3 flex flex-col gap-2' defaultSelectedKeys={['1']} mode="inline">
+                                {renderMenuItems(menuItems)}
+                            </Menu>
+                        </div>
+                        <div 
+                            className="flex justify-end p-4 cursor-pointer"
+                            onClick={() => setCollapsed(!collapsed)}
+                        >
+                            {collapsed ? <RightOutlined /> : <LeftOutlined />}
+                        </div>
+                    </Sider>
+                </div>
+                <Layout className="flex-1 overflow-hidden">
+                    <div className='p-[7px] h-[70px] justify-end px-10 flex items-center bg-white gap-[30px] border-b'>
                         <div className='flex items-center gap-[30px]'>
                             <Input
                                 prefix={<CiSearch className="text-[#718EBF]" size={20} />}
@@ -148,14 +170,14 @@ const DefaultLayout = () => {
                             </div>
                         </div>
                     </div>
-                    <Content className="p-4 bg-gray-100">
+                    <Content className="p-4 bg-gray-50 overflow-y-auto">
                         <Outlet />
                     </Content>
                     <Footer className="text-center text-gray-500">
                         Study Hub © 2024 Created by Akalong
                     </Footer>
                 </Layout>
-            </Layout>
+            </div>
         </ConfigProvider>
     );
 };
