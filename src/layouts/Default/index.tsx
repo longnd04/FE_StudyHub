@@ -123,7 +123,7 @@ const DefaultLayout = () => {
                         <img className="w-[50px] h-[50px] rounded-xl" src={logoF8} alt="logo" />
                         {!collapsed && <div className="text-2xl font-semibold text-orange-500">Study Hub</div>}
                     </div>
-                    <Menu defaultSelectedKeys={['1']} mode="inline">
+                    <Menu className='pt-3 flex flex-col gap-2' defaultSelectedKeys={['1']} mode="inline">
                         {renderMenuItems(menuItems)}
                     </Menu>
                 </Sider>
