@@ -1,4 +1,4 @@
-import { icons } from "@/assets/icons";
+import { icons } from '@/assets/icons';
 
 const Verify = () => {
     return (
@@ -11,9 +11,7 @@ const Verify = () => {
                     <h2 className="uppercase text-2xl text-center">Authenticate Your Account</h2>
                     <div className="border-t w-3/4 border-gray-300"></div>
                     <div className="font-semibold">Duyzfclong@gmail.com</div>
-                    <button className="py-2 px-8 mt-4 text-white bg-orange-500 rounded-md">
-                        Verify
-                    </button>
+                    <button className="py-2 px-8 mt-4 text-white bg-orange-500 rounded-md">Verify</button>
                 </div>
             </div>
         </div>
