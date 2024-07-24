@@ -7,6 +7,8 @@ import { LiaBookSolid } from 'react-icons/lia';
 import { CiSearch } from 'react-icons/ci';
 import { RxComponentNone } from 'react-icons/rx';
 import { GoDeviceCameraVideo } from 'react-icons/go';
+import { images } from '@/assets/images';
+import { IoIosNotificationsOutline } from 'react-icons/io';
 
 const { Content, Footer, Sider } = Layout;
 
@@ -78,7 +80,7 @@ const DefaultLayout = () => {
         {
             id: '4',
             label: 'Component',
-            icon: <RxComponentNone  size={25} />,
+            icon: <RxComponentNone size={25} />,
         },
     ];
 
@@ -118,8 +120,8 @@ const DefaultLayout = () => {
     return (
         <ConfigProvider theme={theme}>
             <Layout className="min-h-screen">
-                <Sider theme="light" width={300} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-                    <div className="flex items-center gap-3 p-3 pl-5 border-b border-orange-300">
+                <Sider className='border-r' theme="light" width={300} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+                    <div className="flex items-center gap-3 p-3">
                         <img className="w-[50px] h-[50px] rounded-xl" src={logoF8} alt="logo" />
                         {!collapsed && <div className="text-2xl font-semibold text-orange-500">Study Hub</div>}
                     </div>
@@ -128,13 +130,23 @@ const DefaultLayout = () => {
                     </Menu>
                 </Sider>
                 <Layout>
-                    <div className='p-3 flex items-center'>
-                        <Input
-                            prefix={<CiSearch className="text-gray-400" />}
-                            placeholder="Search for something"
-                            className="bg-[#F5F7FA] "
-                        />
-
+                    <div className='p-[7px] h-[70px] justify-end  px-10 flex items-center bg-white gap-[30px] border-b'>
+                        <div className='flex items-center gap-[30px]'>
+                            <Input
+                                prefix={<CiSearch className="text-[#718EBF]" size={20} />}
+                                placeholder="Search for something"
+                                className="bg-[#F5F7FA] placeholder:text-[#8BA3CB] rounded-full py-2 w-[255px]"
+                            />
+                            <div className='w-[40px] h-[40px] flex items-center justify-center rounded-full bg-gray-100'>
+                                <IoSettingsOutline className='text-[#718EBF]' size={25} />
+                            </div>
+                            <div className='w-[40px] h-[40px] flex items-center justify-center rounded-full bg-gray-100'>
+                                <IoIosNotificationsOutline className='text-red-500' size={25} />
+                            </div>
+                            <div>
+                                <img className='w-[45px] rounded-full' src={images.logoF8} alt="" />
+                            </div>
+                        </div>
                     </div>
                     <Content className="p-4 bg-gray-100">
                         <Outlet />
