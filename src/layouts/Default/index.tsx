@@ -1,15 +1,16 @@
 import { useState, ReactNode } from 'react';
-import { Layout, Menu, ConfigProvider, Input } from 'antd';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Layout, Menu, ConfigProvider, Input, Popover } from 'antd';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import logoF8 from '@/assets/images/logo_f8.png';
 import { IoPieChartOutline, IoSettingsOutline } from 'react-icons/io5';
 import { LiaBookSolid } from 'react-icons/lia';
-import { CiSearch } from 'react-icons/ci';
+import { CiLogout, CiSearch, CiUser } from 'react-icons/ci';
 import { RxComponentNone } from 'react-icons/rx';
 import { GoDeviceCameraVideo } from 'react-icons/go';
 import { images } from '@/assets/images';
 import { IoIosNotificationsOutline } from 'react-icons/io';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { LuUser } from 'react-icons/lu';
 
 const { Content, Footer, Sider } = Layout;
 
@@ -45,6 +46,7 @@ const DefaultLayout = () => {
         {
             id: '1',
             label: 'Dash Board',
+            path: "/admin",
             icon: <IoPieChartOutline size={25} />,
         },
         {
@@ -80,11 +82,42 @@ const DefaultLayout = () => {
         },
         {
             id: '4',
+            label: 'Profile',
+            path: "/admin/profile",
+            icon: <LuUser size={25} />,
+        },
+        {
+            id: '5',
             label: 'Component',
             path: "/admin/components",
             icon: <RxComponentNone size={25} />,
         },
     ];
+    const handleProfile = () => {
+        console.log("Profile clicked");
+    };
+
+    const handleLogout = () => {
+        console.log("Logout clicked");
+    };
+
+    const settingsContent = (
+        <div>
+            <Link className="py-2 px-5 hover:bg-primary-100 hover:rounded-md hover:text-black cursor-pointer flex items-center"
+                onClick={handleProfile} to={"/admin/profile"}>
+                <CiUser size={18} className="mr-2" />
+                <div>Profile</div>
+            </Link>
+            <hr className="border-primary-100 my-1" />
+            <div
+                className="py-2 px-5 hover:bg-primary-100 hover:rounded-md cursor-pointer flex items-center"
+                onClick={handleLogout}
+            >
+                <CiLogout size={18} className="mr-2 text-red-500" />
+                <span className='text-red-500'>Logout</span>
+            </div>
+        </div>
+    );
 
     const renderMenuItems = (items: IMenuItem[]) => {
         return items.map((item) => {
@@ -126,9 +159,9 @@ const DefaultLayout = () => {
                     width: collapsed ? 80 : 300,
                     transition: 'width 0.3s ease'
                 }}>
-                    <Sider 
+                    <Sider
                         className='h-full border-r flex flex-col'
-                        theme="light" 
+                        theme="light"
                         width={300}
                         collapsed={collapsed}
                         collapsible
@@ -143,7 +176,7 @@ const DefaultLayout = () => {
                                 {renderMenuItems(menuItems)}
                             </Menu>
                         </div>
-                        <div 
+                        <div
                             className="flex justify-end p-4 cursor-pointer"
                             onClick={() => setCollapsed(!collapsed)}
                         >
@@ -159,9 +192,15 @@ const DefaultLayout = () => {
                                 placeholder="Search for something"
                                 className="bg-[#F5F7FA] placeholder:text-[#8BA3CB] rounded-full py-2 w-[255px]"
                             />
-                            <div className='w-[40px] h-[40px] flex items-center justify-center rounded-full bg-gray-100'>
-                                <IoSettingsOutline className='text-[#718EBF]' size={25} />
-                            </div>
+                            <Popover
+                                content={settingsContent}
+                                trigger="click"
+                                placement="bottom"
+                            >
+                                <div className='w-[40px] h-[40px] flex items-center justify-center rounded-full bg-gray-100 cursor-pointer'>
+                                    <IoSettingsOutline className='text-[#718EBF]' size={25} />
+                                </div>
+                            </Popover>
                             <div className='w-[40px] h-[40px] flex items-center justify-center rounded-full bg-gray-100'>
                                 <IoIosNotificationsOutline className='text-red-500' size={25} />
                             </div>
@@ -170,13 +209,14 @@ const DefaultLayout = () => {
                             </div>
                         </div>
                     </div>
-                    <Content className="p-4 bg-gray-50 overflow-y-auto">
+                    <Content className="p-4 bg-gray-50 overflow-y-auto" style={{ height: 'calc(100vh - 70px)' }}>
                         <Outlet />
                     </Content>
                     <Footer className="text-center text-gray-500">
                         Study Hub © 2024 Created by Akalong
                     </Footer>
                 </Layout>
+
             </div>
         </ConfigProvider>
     );

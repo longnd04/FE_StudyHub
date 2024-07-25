@@ -7,6 +7,7 @@ import Components from '@/pages/Components/Components';
 import ForgotPassword from '@/pages/ForgotPassword/ForgotPassword';
 import Home from '@/pages/Home/Home';
 import Login from '@/pages/Login/Login';
+import Profile from '@/pages/Profile/Profile';
 import Register from '@/pages/Register/Register';
 import Verify from '@/pages/Verify/Verify';
 
@@ -50,6 +51,10 @@ export const routes: IRoute[] = [
                     {
                         path: '/components',
                         element: () => <Components />,
+                    },
+                    {
+                        path: '/profile',
+                        element: () => <Profile />,
                     },
                 ],
             },

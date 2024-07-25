@@ -16,6 +16,7 @@ interface InputTextNumberProps {
     onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
     error?: string;
     onChange?: (value: string | number) => void;
+    className?: string
 }
 
 const InputTextNumber = ({
@@ -32,6 +33,7 @@ const InputTextNumber = ({
     error,
     onChange,
     autoFocus,
+    className,
 }: InputTextNumberProps) => {
     const [isFocused, setIsFocused] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -85,6 +87,7 @@ const InputTextNumber = ({
                     onBlur={handleBlur}
                     ref={inputRef}
                     className={clsx(
+                        className,
                         "text-m-regular placeholder:text-m-medium w-full flex-1 grow bg-gray-25 py-[8.5px] text-black-500 outline-none focus:bg-white",
                         {
                             "px-3": !Icon,
