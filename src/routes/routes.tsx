@@ -1,3 +1,4 @@
+import DefaultLayoutAdmin from '@/layouts/Auth';
 import DefaultLayout from '@/layouts/Default';
 import AuthMiddleware from '@/middlewares/AuthMiddleware';
 import { IRoute } from '@/models/shared/routes.model';
@@ -15,6 +16,7 @@ export const routes: IRoute[] = [
     {
         path: '/',
         middleware: AuthMiddleware,
+        layout: () => <DefaultLayout />,
         pages: [
             {
                 path: '/',
@@ -36,27 +38,28 @@ export const routes: IRoute[] = [
                 path: '/verify',
                 element: () => <Verify />,
             },
+
+        ],
+    },
+    {
+        path: '/admin',
+        layout: () => <DefaultLayoutAdmin />,
+        pages: [
             {
-                path: '/admin',
-                layout: () => <DefaultLayout />,
-                pages: [
-                    {
-                        path: '/',
-                        element: () => <Dashboard />,
-                    },
-                    {
-                        path: '/product',
-                        element: () => <Products />,
-                    },
-                    {
-                        path: '/components',
-                        element: () => <Components />,
-                    },
-                    {
-                        path: '/profile',
-                        element: () => <Profile />,
-                    },
-                ],
+                path: '/',
+                element: () => <Dashboard />,
+            },
+            {
+                path: '/product',
+                element: () => <Products />,
+            },
+            {
+                path: '/components',
+                element: () => <Components />,
+            },
+            {
+                path: '/profile',
+                element: () => <Profile />,
             },
         ],
     },

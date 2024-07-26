@@ -1,222 +1,81 @@
-import { useState, ReactNode } from 'react';
-import { Layout, Menu, ConfigProvider, Input, Popover } from 'antd';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
-import logoF8 from '@/assets/images/logo_f8.png';
-import { IoPieChartOutline, IoSettingsOutline } from 'react-icons/io5';
-import { LiaBookSolid } from 'react-icons/lia';
-import { CiLogout, CiSearch, CiUser } from 'react-icons/ci';
-import { RxComponentNone } from 'react-icons/rx';
-import { GoDeviceCameraVideo } from 'react-icons/go';
-import { images } from '@/assets/images';
-import { IoIosNotificationsOutline } from 'react-icons/io';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { LuUser } from 'react-icons/lu';
-
-const { Content, Footer, Sider } = Layout;
-
-interface IMenuItem {
-    id: string;
-    label: string;
-    path?: string;
-    icon?: ReactNode;
-    onClick?: () => void;
-    items?: IMenuItem[];
-}
-
-const theme = {
-    token: {
-        colorPrimary: '#f97316',
-        colorBgContainer: '#ffffff',
-    },
-    components: {
-        Menu: {
-            itemSelectedBg: '#fff7ed',
-            itemSelectedColor: '#f97316',
-            itemHoverColor: '#333333',
-            itemHoverBg: '#fff7ed',
-        },
-    },
-};
+import { useState } from 'react';
+import { ConfigProvider, Input } from 'antd';
+import { images } from "@/assets/images";
+import { CiSearch } from "react-icons/ci";
+import { IoIosNotifications, IoMdHome } from "react-icons/io";
+import { FaRoad } from 'react-icons/fa';
+import { Outlet } from 'react-router-dom';
+import { AiOutlineNotification } from 'react-icons/ai';
 
 const DefaultLayout = () => {
-    const [collapsed, setCollapsed] = useState(false);
-    const navigate = useNavigate();
-
-    const menuItems: IMenuItem[] = [
-        {
-            id: '1',
-            label: 'Dash Board',
-            path: "/admin",
-            icon: <IoPieChartOutline size={25} />,
-        },
-        {
-            id: '2',
-            label: 'Quản lý khóa học',
-            icon: <LiaBookSolid size={25} />,
-            items: [
-                {
-                    id: '2.1',
-                    label: 'Learning',
-                    icon: <GoDeviceCameraVideo size={25} />,
-                },
-            ],
-        },
-        {
-            id: '3',
-            label: 'Setting',
-            icon: <IoSettingsOutline size={25} />,
-            items: [
-                {
-                    id: "3.1",
-                    label: "Role"
-                },
-                {
-                    id: "3.2",
-                    label: "Permission"
-                },
-                {
-                    id: "3.3",
-                    label: "Lesson"
-                },
-            ]
-        },
-        {
-            id: '4',
-            label: 'Profile',
-            path: "/admin/profile",
-            icon: <LuUser size={25} />,
-        },
-        {
-            id: '5',
-            label: 'Component',
-            path: "/admin/components",
-            icon: <RxComponentNone size={25} />,
-        },
-    ];
-    const handleProfile = () => {
-        console.log("Profile clicked");
-    };
-
-    const handleLogout = () => {
-        console.log("Logout clicked");
-    };
-
-    const settingsContent = (
-        <div>
-            <Link className="py-2 px-5 hover:bg-primary-100 hover:rounded-md hover:text-black cursor-pointer flex items-center"
-                onClick={handleProfile} to={"/admin/profile"}>
-                <CiUser size={18} className="mr-2" />
-                <div>Profile</div>
-            </Link>
-            <hr className="border-primary-100 my-1" />
-            <div
-                className="py-2 px-5 hover:bg-primary-100 hover:rounded-md cursor-pointer flex items-center"
-                onClick={handleLogout}
-            >
-                <CiLogout size={18} className="mr-2 text-red-500" />
-                <span className='text-red-500'>Logout</span>
-            </div>
-        </div>
-    );
-
-    const renderMenuItems = (items: IMenuItem[]) => {
-        return items.map((item) => {
-            if (item.items && item.items.length > 0) {
-                return (
-                    <Menu.SubMenu
-                        key={item.id}
-                        icon={item.icon}
-                        title={<span className='text-m-medium'>{item.label}</span>}
-                    >
-                        {renderMenuItems(item.items)}
-                    </Menu.SubMenu>
-                );
-            }
-
-            return (
-                <Menu.Item
-                    key={item.id}
-                    icon={item.icon}
-                    onClick={() => {
-                        if (item.path) {
-                            navigate(item.path);
-                        }
-                        if (item.onClick) {
-                            item.onClick();
-                        }
-                    }}
-                >
-                    {<span className='text-m-medium'>{item.label}</span>}
-                </Menu.Item>
-            );
-        });
-    };
+    const [selectedNav, setSelectedNav] = useState('home');
 
     return (
-        <ConfigProvider theme={theme}>
-            <div className="flex h-screen overflow-hidden">
-                <div className="relative " style={{
-                    width: collapsed ? 80 : 300,
-                    transition: 'width 0.3s ease'
-                }}>
-                    <Sider
-                        className='h-full border-r flex flex-col'
-                        theme="light"
-                        width={300}
-                        collapsed={collapsed}
-                        collapsible
-                        trigger={null}
-                    >
-                        <div className="flex-grow">
-                            <div className="flex items-center gap-3 p-3 ">
-                                <img className="w-[50px] h-[50px] rounded-xl" src={logoF8} alt="logo" />
-                                {!collapsed && <div className="text-2xl font-semibold text-primary-500">Study Hub</div>}
+        <ConfigProvider
+            theme={{
+                token: {
+                    colorPrimary: '#FFA500',
+                    colorPrimaryHover: '#FF8C00',
+                },
+                components: {
+                    Input: {
+                        activeBorderColor: '#FFA500',
+                        hoverBorderColor: '#FFA500',
+                    },
+                },
+            }}
+        >
+            <div className="flex flex-col h-screen">
+                <header className="flex justify-between border-b px-8 py-3 items-center">
+                    <div className="flex items-center gap-3">
+                        <img className="w-[39px] h-[39px] rounded-lg" src={images.logoF8} alt="" />
+                        <div className="text-l-semibold">Học Lập Trình Để Đi Làm</div>
+                    </div>
+                    <div>
+                        <Input
+                            prefix={<CiSearch className="text-[#718EBF]" size={20} />}
+                            placeholder="Tìm kiếm khóa học, bài viết, video, ..."
+                            className="bg-[#F5F7FA] placeholder:text-[#8BA3CB] rounded-full py-2 w-[400px]"
+                        />
+                    </div>
+                    <div className="flex items-center gap-5">
+                        <div className="text-gray-700 text-m-medium">Khoá học của tôi</div>
+                        <IoIosNotifications size={18} />
+                        <img className="w-[29px] h-[29px] rounded-full" src={images.logoF8} alt="" />
+                    </div>
+                </header>
+
+                <div className="flex flex-1">
+                    <nav className='flex flex-col fixed gap-6 pt-5 left-0 w-[100px] px-3 ml-3'>
+                        <div className='flex flex-col gap-6'>
+                            <div
+                                className={`flex flex-col gap-2 cursor-pointer justify-center items-center w-[80px] h-[80px] rounded-md ${selectedNav === 'home' ? 'bg-primary-400 text-white' : 'hover:bg-primary-200'}`}
+                                onClick={() => setSelectedNav('home')}
+                            >
+                                <div><IoMdHome size={20} /></div>
+                                <div className='text-xs'>Trang chủ</div>
                             </div>
-                            <Menu className='pt-3 flex flex-col gap-2' defaultSelectedKeys={['1']} mode="inline">
-                                {renderMenuItems(menuItems)}
-                            </Menu>
+                            <div
+                                className={`flex flex-col gap-2 cursor-pointer justify-center items-center w-[80px] h-[80px] rounded-md ${selectedNav === 'roadmap' ? 'bg-primary-400 text-white' : 'hover:bg-primary-200'}`}
+                                onClick={() => setSelectedNav('roadmap')}
+                            >
+                                <div><FaRoad size={20} /></div>
+                                <div className='text-xs'>Lộ trình</div>
+                            </div>
                         </div>
                         <div
-                            className="flex justify-end p-4 cursor-pointer"
-                            onClick={() => setCollapsed(!collapsed)}
+                            className={`flex flex-col w gap-2 cursor-pointer fixed bottom-10 justify-center items-center w-[80px] h-[80px] rounded-m`}
+                            onClick={() => setSelectedNav('notifi')}
                         >
-                            {collapsed ? <RightOutlined /> : <LeftOutlined />}
-                        </div>
-                    </Sider>
-                </div>
-                <Layout className="flex-1 overflow-hidden">
-                    <div className='p-[7px] h-[70px] justify-end px-10 flex items-center bg-white gap-[30px] border-b'>
-                        <div className='flex items-center gap-[30px]'>
-                            <Input
-                                prefix={<CiSearch className="text-[#718EBF]" size={20} />}
-                                placeholder="Search for something"
-                                className="bg-[#F5F7FA] placeholder:text-[#8BA3CB] rounded-full py-2 w-[255px]"
-                            />
-                            <Popover
-                                content={settingsContent}
-                                trigger="click"
-                                placement="bottom"
-                            >
-                                <div className='w-[40px] h-[40px] flex items-center justify-center rounded-full bg-gray-100 cursor-pointer'>
-                                    <IoSettingsOutline className='text-[#718EBF]' size={25} />
-                                </div>
-                            </Popover>
-                            <div className='w-[40px] h-[40px] flex items-center justify-center rounded-full bg-gray-100'>
-                                <IoIosNotificationsOutline className='text-red-500' size={25} />
-                            </div>
-                            <div>
-                                <img className='w-[45px] rounded-full' src={images.logoF8} alt="" />
+                            <div className='w-[50px] h-[50px] bg-primary-300 rounded-full flex justify-center items-center'>
+                                <AiOutlineNotification size={25} />
                             </div>
                         </div>
-                    </div>
-                    <Content className="p-4 bg-gray-50 overflow-y-auto" style={{ height: 'calc(100vh - 70px)' }}>
+                    </nav>
+                    <main className="flex-1 ml-[100px] pt-5 px-10">
                         <Outlet />
-                    </Content>
-                    <Footer className="text-center text-gray-500">
-                        Study Hub © 2024 Created by Akalong
-                    </Footer>
-                </Layout>
-
+                    </main>
+                </div>
             </div>
         </ConfigProvider>
     );
