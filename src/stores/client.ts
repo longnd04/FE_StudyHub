@@ -1,5 +1,5 @@
 export const client = {
-    SERVER_URL: 'http://localhost:8080',
+    SERVER_URL: 'https://be-studyhub.onrender.com',
     tokens: {
         accessToken: JSON.parse(localStorage.getItem('accessToken') as string) ?? '',
         refreshToken: JSON.parse(localStorage.getItem('refreshToken') as string) ?? '',
