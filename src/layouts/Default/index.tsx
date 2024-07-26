@@ -67,7 +67,7 @@ const DefaultLayout = () => {
                             className={`flex flex-col w gap-2 cursor-pointer fixed bottom-10 justify-center items-center w-[80px] h-[80px] rounded-m`}
                             onClick={() => setSelectedNav('notifi')}
                         >
-                            <div className='w-[50px] h-[50px] bg-primary-300 rounded-full flex justify-center items-center'>
+                            <div className='w-[50px] h-[50px] bg-gray-300 rounded-full flex justify-center items-center'>
                                 <AiOutlineNotification size={25} />
                             </div>
                         </div>
