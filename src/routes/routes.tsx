@@ -14,34 +14,16 @@ import Verify from '@/pages/Verify/Verify';
 
 export const routes: IRoute[] = [
     {
-        path: '/login',
-        element: Login,
-    },
-    {
-        path: '/register',
-        element: Register,
-    },
-    {
         path: '/',
-        middleware: AuthMiddleware ,
+        middleware: AuthMiddleware,
         layout: () => <DefaultLayout />,
         pages: [
             {
                 path: '/',
                 element: Home,
             },
-            
         ],
     },
-    {
-        path: '/forgotpassword',
-        element: () => <ForgotPassword />,
-    },
-    {
-        path: '/verify',
-        element: () => <Verify />,
-    },
-
     {
         path: '/admin',
         layout: () => <DefaultLayoutAdmin />,
@@ -63,5 +45,21 @@ export const routes: IRoute[] = [
                 element: () => <Profile />,
             },
         ],
+    },
+    {
+        path: '/login',
+        element: Login,
+    },
+    {
+        path: '/register',
+        element: Register,
+    },
+    {
+        path: '/forgotpassword',
+        element: () => <ForgotPassword />,
+    },
+    {
+        path: '/verify',
+        element: () => <Verify />,
     },
 ];

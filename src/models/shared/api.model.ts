@@ -1,16 +1,16 @@
-type methodType = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+export type methodType = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
-interface IFetchHeaders {
+export interface IFetchHeaders {
     'Content-Type'?: string;
     Authorization?: string;
 }
 
-interface IFetchOptions extends IFetchHeaders {
+export interface IFetchOptions extends IFetchHeaders {
     method: methodType;
     body?: any;
 }
 
-interface IThunkPayload {
+export interface IThunkPayload {
     body?: any;
     query?: object;
     headers?: IFetchHeaders;

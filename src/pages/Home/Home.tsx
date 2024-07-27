@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { images } from "@/assets/images";
+import { images } from '@/assets/images';
 
 const Home = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -27,18 +27,21 @@ const Home = () => {
                             key={index}
                             src={slide}
                             alt={`Slide ${index + 1}`}
-                            className={`absolute top-0 left-0 w-full h-full rounded-xl object-cover transition-opacity duration-500 ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
+                            className={`absolute top-0 left-0 w-full h-full rounded-xl object-cover transition-opacity duration-500 
+                                ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
                         />
                     ))}
                 </div>
                 <button
-                    className="absolute top-1/2 left-[-18px] transform w-[40px] h-[40px] flex justify-center items-center -translate-y-1/2 bg-white text-primary-500 p-3 rounded-full shadow-xl"
+                    className="absolute top-1/2 left-[-18px] transform w-[40px] h-[40px] flex justify-center
+                     items-center -translate-y-1/2 bg-white text-primary-500 p-3 rounded-full shadow-xl"
                     onClick={prevSlide}
                 >
                     &#10094;
                 </button>
                 <button
-                    className="absolute top-1/2 right-[-18px] transform w-[40px] h-[40px] flex justify-center items-center -translate-y-1/2 bg-white text-primary-500 p-3 rounded-full shadow-xl"
+                    className="absolute top-1/2 right-[-18px] transform w-[40px] h-[40px] flex justify-center 
+                    items-center -translate-y-1/2 bg-white text-primary-500 p-3 rounded-full shadow-xl"
                     onClick={nextSlide}
                 >
                     &#10095;

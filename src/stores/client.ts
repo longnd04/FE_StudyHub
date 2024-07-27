@@ -1,3 +1,5 @@
+import { IFetchOptions, IThunkPayload, methodType } from '@/models/shared/api.model';
+
 export const client = {
     SERVER_URL: 'https://be-studyhub.onrender.com',
     tokens: {
@@ -27,10 +29,10 @@ export const client = {
 
         const response = await fetch(`${this.SERVER_URL}${path}${queryParams}`, options);
         if (!response.ok) {
-            if (response.status == 401) {
+            if (response.status === 401) {
                 // Refresh Token
-            } else if (response.status == 403) {
-            } else if (response.status == 500) {
+            } else if (response.status === 403) {
+            } else if (response.status === 500) {
             }
         }
         const data = await response.json();

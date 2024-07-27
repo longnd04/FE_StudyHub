@@ -1,6 +1,6 @@
-import Button from "@/components/Button"
-import InputTextNumber from "@/components/InputTextNumber"
-import { IoSaveOutline } from "react-icons/io5"
+import Button from '@/components/Button';
+import InputTextNumber from '@/components/InputTextNumber';
+import { IoSaveOutline } from 'react-icons/io5';
 
 const Components = () => {
     return (
@@ -27,7 +27,7 @@ const Components = () => {
                 <div className="display-xl-medium">Button</div>
                 <div className="flex flex-col gap-4 items-start">
                     <InputTextNumber placeholder="Đây là input number" type="number" />
-                    <InputTextNumber placeholder="Đây là input number bị disabled" isDisabled value={"Long"} />
+                    <InputTextNumber placeholder="Đây là input number bị disabled" isDisabled value={'Long'} />
                     <InputTextNumber placeholder="Đây là input text" type="text" />
                     <InputTextNumber error="error!!!" placeholder="Đây là input text bị lỗi" type="text" />
                     <InputTextNumber placeholder="Đây là input text bị readonly" isReadonly type="text" />
@@ -36,7 +36,7 @@ const Components = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Components
+export default Components;

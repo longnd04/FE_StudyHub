@@ -1,10 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { login, register, verify } from '../thunks/auth.thunk';
+import { login, logout, register, verify } from '../thunks/auth.thunk';
 import { AuthActions, Status } from '@/models/index.model';
-import { useNavigate } from 'react-router-dom';
-import { boolean } from 'yup';
-const accessToken = localStorage.getItem("accessToken");
-
+const accessToken = localStorage.getItem('accessToken');
 const initialState = {
     isLogin: !!accessToken,
     user: null,
@@ -27,13 +24,9 @@ export const authSlice = createSlice({
                 localStorage.setItem('refreshToken', JSON.stringify(payload.metaData?.refresh_token));
                 state.isLogin = true;
                 state.user = payload.metaData;
-                console.log('====================================');
-                console.log(state.isLogin);
-                console.log('====================================');
             })
-            .addCase(login.rejected, (state, { payload }) => {
-                console.log('🚀 ~ .addCase ~ state, { payload }:', state, { payload });
-                console.log('Rejected');
+            .addCase(login.rejected, (state) => {
+                state.status = Status.REJECTED;
             });
         builder
             .addCase(register.pending, (state) => {
@@ -42,7 +35,9 @@ export const authSlice = createSlice({
             .addCase(register.fulfilled, (state) => {
                 state.status = Status.FULFILLED;
             })
-            .addCase(register.rejected, (state, { payload }) => {});
+            .addCase(register.rejected, (state) => {
+                state.status = Status.REJECTED;
+            });
         builder
             .addCase(verify.pending, (state) => {
                 state.status = Status.PENDING;
@@ -52,6 +47,19 @@ export const authSlice = createSlice({
                 state.user = payload.metaData;
             })
             .addCase(verify.rejected, (state) => {
+                state.status = Status.REJECTED;
+            });
+        builder
+            .addCase(logout.pending, (state) => {
+                state.status = Status.PENDING;
+            })
+            .addCase(logout.fulfilled, (state) => {
+                state.status = Status.FULFILLED;
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                state.isLogin = false;
+            })
+            .addCase(logout.rejected, (state) => {
                 state.status = Status.REJECTED;
             });
     },

@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { client } from '../client';
+import { IThunkPayload } from '@/models/shared/api.model';
 const prefix = '/auth';
 
 export const login = createAsyncThunk('login', async (payload: IThunkPayload, thunkAPI) => {
@@ -21,6 +22,14 @@ export const register = createAsyncThunk('register', async (payload: IThunkPaylo
 export const verify = createAsyncThunk('verify', async (payload: IThunkPayload, thunkAPI) => {
     try {
         const { data } = await client.post(`${prefix}/verify`, payload);
+        return data;
+    } catch (error: any) {
+        return thunkAPI.rejectWithValue(error.response.data);
+    }
+});
+export const logout = createAsyncThunk('logout', async (__payload, thunkAPI) => {
+    try {
+        const { data } = await client.post(`${prefix}/logout`);
         return data;
     } catch (error: any) {
         return thunkAPI.rejectWithValue(error.response.data);

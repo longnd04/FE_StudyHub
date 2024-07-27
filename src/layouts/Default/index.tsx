@@ -1,15 +1,31 @@
 import { useState } from 'react';
-import { ConfigProvider, Input } from 'antd';
-import { images } from "@/assets/images";
-import { CiSearch } from "react-icons/ci";
-import { IoIosNotifications, IoMdHome } from "react-icons/io";
+import { ConfigProvider, Input, Popover } from 'antd';
+import { images } from '@/assets/images';
+import { CiLogout, CiSearch, CiUser } from 'react-icons/ci';
+import { IoIosNotifications, IoMdHome } from 'react-icons/io';
 import { FaRoad } from 'react-icons/fa';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { AiOutlineNotification } from 'react-icons/ai';
+import { useDispatch } from 'react-redux';
+import { logout } from '@/stores/thunks/auth.thunk';
+import { AppDispatch } from '@/stores/store';
 
 const DefaultLayout = () => {
     const [selectedNav, setSelectedNav] = useState('home');
-
+    const dispatch = useDispatch<AppDispatch>();
+    const settingsContent = (
+        <div>
+            <Link className="py-2 px-5 hover:bg-primary-100 hover:rounded-md hover:text-black cursor-pointer flex items-center" to={'/admin/profile'}>
+                <CiUser size={18} className="mr-2" />
+                <div>Profile</div>
+            </Link>
+            <hr className="border-primary-100 my-1" />
+            <div className="py-2 px-5 hover:bg-primary-100 hover:rounded-md cursor-pointer flex items-center" onClick={() => dispatch(logout())}>
+                <CiLogout size={18} className="mr-2 text-red-500" />
+                <span className="text-red-500">Logout</span>
+            </div>
+        </div>
+    );
     return (
         <ConfigProvider
             theme={{
@@ -41,33 +57,41 @@ const DefaultLayout = () => {
                     <div className="flex items-center gap-5">
                         <div className="text-gray-700 text-m-medium">Khoá học của tôi</div>
                         <IoIosNotifications size={18} />
-                        <img className="w-[29px] h-[29px] rounded-full" src={images.logoF8} alt="" />
+                        <Popover content={settingsContent} trigger="click" placement="bottom">
+                            <img className="w-[29px] h-[29px] rounded-full" src={images.logoF8} alt="" />
+                        </Popover>
                     </div>
                 </header>
 
                 <div className="flex flex-1">
-                    <nav className='flex flex-col fixed gap-6 pt-5 left-0 w-[100px] px-3 ml-3'>
-                        <div className='flex flex-col gap-6'>
+                    <nav className="flex flex-col fixed gap-6 pt-5 left-0 w-[100px] px-3 ml-3">
+                        <div className="flex flex-col gap-6">
                             <div
-                                className={`flex flex-col gap-2 cursor-pointer justify-center items-center w-[80px] h-[80px] rounded-md ${selectedNav === 'home' ? 'bg-primary-400 text-white' : 'hover:bg-primary-200'}`}
+                                className={`flex flex-col gap-2 cursor-pointer justify-center items-center w-[80px] h-[80px] rounded-md
+                                     ${selectedNav === 'home' ? 'bg-primary-400 text-white' : 'hover:bg-primary-200'}`}
                                 onClick={() => setSelectedNav('home')}
                             >
-                                <div><IoMdHome size={20} /></div>
-                                <div className='text-xs'>Trang chủ</div>
+                                <div>
+                                    <IoMdHome size={20} />
+                                </div>
+                                <div className="text-xs">Trang chủ</div>
                             </div>
                             <div
-                                className={`flex flex-col gap-2 cursor-pointer justify-center items-center w-[80px] h-[80px] rounded-md ${selectedNav === 'roadmap' ? 'bg-primary-400 text-white' : 'hover:bg-primary-200'}`}
+                                className={`flex flex-col gap-2 cursor-pointer justify-center items-center w-[80px] h-[80px] rounded-md 
+                                    ${selectedNav === 'roadmap' ? 'bg-primary-400 text-white' : 'hover:bg-primary-200'}`}
                                 onClick={() => setSelectedNav('roadmap')}
                             >
-                                <div><FaRoad size={20} /></div>
-                                <div className='text-xs'>Lộ trình</div>
+                                <div>
+                                    <FaRoad size={20} />
+                                </div>
+                                <div className="text-xs">Lộ trình</div>
                             </div>
                         </div>
                         <div
                             className={`flex flex-col w gap-2 cursor-pointer fixed bottom-10 justify-center items-center w-[80px] h-[80px] rounded-m`}
                             onClick={() => setSelectedNav('notifi')}
                         >
-                            <div className='w-[50px] h-[50px] bg-gray-300 rounded-full flex justify-center items-center'>
+                            <div className="w-[50px] h-[50px] bg-gray-300 rounded-full flex justify-center items-center">
                                 <AiOutlineNotification size={25} />
                             </div>
                         </div>

@@ -13,23 +13,25 @@ const Register = () => {
     const formik = useFormik({
         initialValues: {
             user_name: '',
-            email: "",
+            email: '',
             password: '',
-            confirm_password: ''
+            confirm_password: '',
         },
         validationSchema: Yup.object({
             user_name: Yup.string().required('Tài khoản là bắt buộc'),
-            email: Yup.string().email().required("Email là bắt buộc"),
+            email: Yup.string().email().required('Email là bắt buộc'),
             password: Yup.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự').required('Mật khẩu là bắt buộc'),
             confirm_password: Yup.string()
                 .oneOf([Yup.ref('password')], 'Mật khẩu không khớp')
-                .required('Nhập lại mật khẩu là bắt buộc')
+                .required('Nhập lại mật khẩu là bắt buộc'),
         }),
-        onSubmit: values => {
-            dispatch(register({
-                body: values
-            }))
-        }
+        onSubmit: (values) => {
+            dispatch(
+                register({
+                    body: values,
+                }),
+            );
+        },
     });
 
     return (
@@ -42,29 +44,29 @@ const Register = () => {
                 </p>
                 <form onSubmit={formik.handleSubmit} className="w-full">
                     <div className="w-full mb-6 relative">
-                        <div className='relative'>
+                        <div className="relative">
                             <input
                                 type="text"
                                 name="email"
                                 placeholder="Email"
-                                className="placeholder:text-m-medium border-b border-gray-300 text-m-medium peer h-full w-full bg-transparent py-2 placeholder-gray-400 outline-none"
+                                className="placeholder:text-m-medium border-b border-gray-300 text-m-medium peer 
+                                h-full w-full bg-transparent py-2 placeholder-gray-400 outline-none"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 value={formik.values.email}
                             />
                             <div className="absolute bottom-0 left-0 right-0 h-[1px] w-0 bg-orange-500 transition-size duration-500 peer-focus:w-full"></div>
                         </div>
-                        {formik.touched.email && formik.errors.email ? (
-                            <div className="text-red-500 text-sm ">{formik.errors.email}</div>
-                        ) : null}
+                        {formik.touched.email && formik.errors.email ? <div className="text-red-500 text-sm ">{formik.errors.email}</div> : null}
                     </div>
                     <div className="w-full mb-6 relative">
-                        <div className='relative'>
+                        <div className="relative">
                             <input
                                 type="text"
                                 name="user_name"
                                 placeholder="Tài khoản"
-                                className="placeholder:text-m-medium border-b border-gray-300 text-m-medium peer h-full w-full bg-transparent py-2 placeholder-gray-400 outline-none"
+                                className="placeholder:text-m-medium border-b border-gray-300 text-m-medium 
+                                peer h-full w-full bg-transparent py-2 placeholder-gray-400 outline-none"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 value={formik.values.user_name}
@@ -76,12 +78,13 @@ const Register = () => {
                         ) : null}
                     </div>
                     <div className="w-full mb-6 relative">
-                        <div className='relative'>
+                        <div className="relative">
                             <input
                                 type="password"
                                 name="password"
                                 placeholder="Mật khẩu"
-                                className="placeholder:text-m-medium border-b border-gray-300 text-m-medium peer h-full w-full bg-transparent py-2 placeholder-gray-400 outline-none"
+                                className="placeholder:text-m-medium border-b border-gray-300 text-m-medium peer h-full 
+                                w-full bg-transparent py-2 placeholder-gray-400 outline-none"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 value={formik.values.password}
@@ -93,12 +96,13 @@ const Register = () => {
                         ) : null}
                     </div>
                     <div className="w-full mb-6 relative">
-                        <div className='relative'>
+                        <div className="relative">
                             <input
                                 type="password"
                                 name="confirm_password"
                                 placeholder="Nhập lại mật khẩu"
-                                className="placeholder:text-m-medium border-b border-gray-300 text-m-medium peer h-full w-full bg-transparent py-2 placeholder-gray-400 outline-none"
+                                className="placeholder:text-m-medium border-b border-gray-300 text-m-medium peer h-full
+                                 w-full bg-transparent py-2 placeholder-gray-400 outline-none"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 value={formik.values.confirm_password}
@@ -109,7 +113,9 @@ const Register = () => {
                             <div className="text-red-500 text-sm">{formik.errors.confirm_password}</div>
                         ) : null}
                     </div>
-                    <button type="submit" className="w-full p-3 bg-orange-500 text-white rounded hover:bg-orange-600 transition">Đăng ký</button>
+                    <button type="submit" className="w-full p-3 bg-orange-500 text-white rounded hover:bg-orange-600 transition">
+                        Đăng ký
+                    </button>
                 </form>
                 <div className="flex items-center w-full my-6">
                     <div className="flex-grow border-t border-gray-300"></div>
@@ -122,12 +128,19 @@ const Register = () => {
                 <div className="text-center mt-6">
                     <p className="mb-2 text-[14px]">
                         Bạn đã có tài khoản?
-                        <Link className="text-orange-500 underline ml-1" to={'/login'}>Đăng nhập</Link>
+                        <Link className="text-orange-500 underline ml-1" to={'/login'}>
+                            Đăng nhập
+                        </Link>
                     </p>
-                    <Link className="text-orange-500 underline text-[14px]" to={'/forgotpassword'}>Quên mật khẩu</Link>
+                    <Link className="text-orange-500 underline text-[14px]" to={'/forgotpassword'}>
+                        Quên mật khẩu
+                    </Link>
                     <p className="mt-4 text-[10px] text-gray-500">
                         Việc bạn tiếp tục sử dụng trang web này đồng nghĩa bạn đồng ý với
-                        <Link className="text-orange-500 underline px-1" to={'/terms'}>điều khoản sử dụng</Link> của chúng tôi.
+                        <Link className="text-orange-500 underline px-1" to={'/terms'}>
+                            điều khoản sử dụng
+                        </Link>{' '}
+                        của chúng tôi.
                     </p>
                 </div>
             </div>
