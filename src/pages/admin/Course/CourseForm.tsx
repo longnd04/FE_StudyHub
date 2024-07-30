@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { FormikRefType } from "@/models/shared/api.model";
 import { AppDispatch } from "@/stores/store";
 import { createCourse, updateCourse } from "@/stores/thunks/course.thunk";
@@ -28,9 +29,8 @@ export interface ICourseFormInitialValues {
   sale_price?: number;
 }
 
-const CourseForm = ({ formikRef, type, onSuccess, FormikRefType, course }: ICourseFormProps) => {
+const CourseForm: React.FC<ICourseFormProps> = ({ formikRef, type, onSuccess, course }) => {
   const dispatch = useDispatch<AppDispatch>();
-
   const initialValues: ICourseFormInitialValues = {
     title: course?.title || "",
     description: course?.description || "",
@@ -38,12 +38,6 @@ const CourseForm = ({ formikRef, type, onSuccess, FormikRefType, course }: ICour
     regular_price: course?.regular_price || 0,
     sale_price: course?.sale_price || 0,
   };
-
-  const handleImageUpload = (imageURL: string | string[]) => {
-    const url = Array.isArray(imageURL) ? imageURL[0] : imageURL;
-    FormikRefType?.current?.setFieldValue("thumbnail", url);  // Ensure the field name is "thumbnail"
-  };
-
   const courseSchema = object().shape({
     title: string().required("Vui lòng nhập tên khóa học"),
     description: string().required("Vui lòng nhập mô tả"),
@@ -51,21 +45,20 @@ const CourseForm = ({ formikRef, type, onSuccess, FormikRefType, course }: ICour
     regular_price: number().min(0, "Giá không thể âm").required("Vui lòng nhập giá"),
     sale_price: number().min(0, "Giá khuyến mãi không thể âm").required("Vui lòng nhập giá khuyến mãi"),
   });
-
   const handleSubmit = async (values: ICourseFormInitialValues, formikHelpers: FormikHelpers<ICourseFormInitialValues>) => {
     const { setSubmitting, setErrors } = formikHelpers;
-    const payload = lodash.omit(values, ["id"]);
-
     try {
+      const payload = {
+        ...lodash.omit(values, ["id"]),
+      };
       if (type === "create") {
         await dispatch(createCourse({ body: payload })).unwrap();
         message.success("Khóa học đã được tạo thành công");
-        if (onSuccess) onSuccess();
       } else if (type === "update" && course?.id) {
         await dispatch(updateCourse({ body: payload, param: course.id })).unwrap();
         message.success("Khóa học đã được cập nhật thành công");
-        if (onSuccess) onSuccess();
       }
+      if (onSuccess) onSuccess();
     } catch (error: any) {
       if (error.response?.data?.message) {
         message.error(error.response.data.message);
@@ -79,7 +72,6 @@ const CourseForm = ({ formikRef, type, onSuccess, FormikRefType, course }: ICour
       setSubmitting(false);
     }
   };
-
   return (
     <Formik
       innerRef={formikRef}
@@ -111,9 +103,12 @@ const CourseForm = ({ formikRef, type, onSuccess, FormikRefType, course }: ICour
             />
             <UploadImage
               isMultiple={false}
-              onImageUpload={handleImageUpload}
+              onImageUpload={(imageURL: string | string[]) => {
+                const url = Array.isArray(imageURL) ? imageURL[0] : imageURL;
+                setFieldValue("thumbnail", url);
+              }}
               currentImageUrl={values.thumbnail}
-              label="Thumbnail"  // Ensure the label is appropriate
+              label="Thumbnail"
             />
             <InputTextNumber
               label="Regular Price"

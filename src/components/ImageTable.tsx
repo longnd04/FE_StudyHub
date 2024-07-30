@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 
 interface ImageTableProps {
     imageSrc?: string;
-    title: string;
+    title?: string;
     description?: string;
 }
 

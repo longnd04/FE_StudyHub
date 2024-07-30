@@ -91,7 +91,8 @@ const Course: React.FC = () => {
             title: "Mô tả",
         },
         {
-            render: (record) => <ImageTable title={record?.name} imageSrc={record?.image} />,
+            render: (thumbnail: string) => (<ImageTable imageSrc={thumbnail} />),
+            dataIndex: "thumbnail",
             title: "Ảnh",
         },
         {
