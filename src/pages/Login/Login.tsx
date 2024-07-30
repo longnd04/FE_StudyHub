@@ -43,8 +43,8 @@ const Login = () => {
                                 type="text"
                                 name="email"
                                 placeholder="Email"
-                                className="placeholder:text-m-medium border-b border-gray-300 text-m-medium peer h-full w-
-                                full bg-transparent py-2 placeholder-gray-400 outline-none"
+                                className="placeholder:text-m-medium border-b border-gray-300 text-m-medium peer h-full w-full
+                                 bg-transparent py-2 placeholder-gray-400 outline-none"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 value={formik.values.email}

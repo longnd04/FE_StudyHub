@@ -2,6 +2,9 @@ import DefaultLayoutAdmin from '@/layouts/Auth';
 import DefaultLayout from '@/layouts/Default';
 import AuthMiddleware from '@/middlewares/AuthMiddleware';
 import { IRoute } from '@/models/shared/routes.model';
+import Course from '@/pages/admin/Course/Course/Course';
+import CreateCourse from '@/pages/admin/Course/CreateCourse/CreateCourse';
+import UpdateCourse from '@/pages/admin/Course/UpdateCourse/UpdateCourse';
 import Dashboard from '@/pages/admin/Dashboard/Dashboard';
 import Products from '@/pages/admin/Products/Products';
 import Components from '@/pages/Components/Components';
@@ -31,6 +34,18 @@ export const routes: IRoute[] = [
             {
                 path: '/',
                 element: () => <Dashboard />,
+            },
+            {
+                path: '/course',
+                element: () => <Course />,
+            },
+            {
+                path: '/course/create',
+                element: () => <CreateCourse />,
+            },
+            {
+                path: '/course/update/:id',
+                element: () => <UpdateCourse />,
             },
             {
                 path: '/product',
