@@ -57,7 +57,7 @@ const DefaultLayoutAdmin = () => {
                 {
                     id: '2.1',
                     label: 'Khoá học',
-                    path: "/admin/course",
+                    path: '/admin/course',
                     icon: <GoDeviceCameraVideo size={25} />,
                 },
             ],

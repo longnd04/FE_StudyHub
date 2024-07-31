@@ -1,16 +1,16 @@
-import { FormikProps } from "formik";
-import { useNavigate } from "react-router-dom";
-import CourseForm, { ICourseFormInitialValues } from "../CourseForm";
-import { useRef } from "react";
-import Button from "@/components/Button";
-import { FaPlus } from "react-icons/fa";
+import { FormikProps } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import CourseForm, { ICourseFormInitialValues } from '../CourseForm';
+import { useRef } from 'react';
+import Button from '@/components/Button';
+import { FaPlus } from 'react-icons/fa';
 
 const CreateCourse = () => {
     const navigate = useNavigate();
     const formikRef = useRef<FormikProps<ICourseFormInitialValues>>(null);
 
     const handleSuccess = () => {
-        navigate("/admin/course");
+        navigate('/admin/course');
     };
 
     return (
@@ -29,7 +29,7 @@ const CreateCourse = () => {
             </div>
             <CourseForm type="create" formikRef={formikRef} onSuccess={handleSuccess} />
         </div>
-    )
-}
+    );
+};
 
 export default CreateCourse;

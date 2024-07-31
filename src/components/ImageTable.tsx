@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useState, useEffect } from 'react';
 
 interface ImageTableProps {
     imageSrc?: string;
@@ -11,15 +10,15 @@ const ImageTable: React.FC<ImageTableProps> = ({ imageSrc, title, description })
     const [imgSrc, setImgSrc] = useState<string | undefined>(undefined);
 
     useEffect(() => {
-        if (!imageSrc || imageSrc.trim() === "") {
-            setImgSrc("");
+        if (!imageSrc || imageSrc.trim() === '') {
+            setImgSrc('');
         } else {
             setImgSrc(imageSrc);
         }
     }, [imageSrc]);
 
     const handleError = () => {
-        setImgSrc("");
+        setImgSrc('');
     };
 
     return (

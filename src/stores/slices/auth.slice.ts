@@ -1,14 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { login, logout, register, verify } from '../thunks/auth.thunk';
+import { login, logout, refreshToken, register, verify } from '../thunks/auth.thunk';
 import { AuthActions, Status } from '@/models/index.model';
+
 const accessToken = localStorage.getItem('accessToken');
+const tokenExpiration = localStorage.getItem('tokenExpiration');
+const TOKEN_EXPIRATION_TIME = 15 * 60 * 1000;
+
 const initialState = {
-    isLogin: !!accessToken,
+    isLogin: !!accessToken && !!tokenExpiration && parseInt(tokenExpiration, 10) > Date.now(),
     user: null,
     status: Status.IDLE,
     message: '',
     action: AuthActions.UNSET,
+    tokenExpiration: tokenExpiration ? parseInt(tokenExpiration, 10) : null,
 };
+
 export const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -20,14 +26,20 @@ export const authSlice = createSlice({
             })
             .addCase(login.fulfilled, (state, { payload }) => {
                 state.status = Status.FULFILLED;
-                localStorage.setItem('accessToken', JSON.stringify(payload.metaData?.access_token));
-                localStorage.setItem('refreshToken', JSON.stringify(payload.metaData?.refresh_token));
+                const accessToken = payload.metaData?.access_token;
+                const refreshToken = payload.metaData?.refresh_token;
+                const tokenExpiration = Date.now() + TOKEN_EXPIRATION_TIME;
+                localStorage.setItem('accessToken', JSON.stringify(accessToken));
+                localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
+                localStorage.setItem('tokenExpiration', tokenExpiration.toString());
                 state.isLogin = true;
                 state.user = payload.metaData;
+                state.tokenExpiration = tokenExpiration;
             })
             .addCase(login.rejected, (state) => {
                 state.status = Status.REJECTED;
             });
+
         builder
             .addCase(register.pending, (state) => {
                 state.status = Status.PENDING;
@@ -38,6 +50,7 @@ export const authSlice = createSlice({
             .addCase(register.rejected, (state) => {
                 state.status = Status.REJECTED;
             });
+
         builder
             .addCase(verify.pending, (state) => {
                 state.status = Status.PENDING;
@@ -49,6 +62,7 @@ export const authSlice = createSlice({
             .addCase(verify.rejected, (state) => {
                 state.status = Status.REJECTED;
             });
+
         builder
             .addCase(logout.pending, (state) => {
                 state.status = Status.PENDING;
@@ -57,10 +71,33 @@ export const authSlice = createSlice({
                 state.status = Status.FULFILLED;
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
+                localStorage.removeItem('tokenExpiration');
                 state.isLogin = false;
+                state.user = null;
+                state.tokenExpiration = null;
             })
             .addCase(logout.rejected, (state) => {
                 state.status = Status.REJECTED;
+            });
+
+        builder
+            .addCase(refreshToken.fulfilled, (state, { payload }) => {
+                const accessToken = payload.access_token;
+                const refreshToken = payload.refresh_token;
+                const tokenExpiration = Date.now() + TOKEN_EXPIRATION_TIME;
+                localStorage.setItem('accessToken', JSON.stringify(accessToken));
+                localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
+                localStorage.setItem('tokenExpiration', tokenExpiration.toString());
+                state.isLogin = true;
+                state.tokenExpiration = tokenExpiration;
+            })
+            .addCase(refreshToken.rejected, (state) => {
+                state.isLogin = false;
+                state.user = null;
+                state.tokenExpiration = null;
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                localStorage.removeItem('tokenExpiration');
             });
     },
 });
