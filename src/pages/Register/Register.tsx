@@ -1,14 +1,17 @@
 import { images } from '@/assets/images';
 import { AppDispatch } from '@/stores/store';
 import { FcGoogle } from 'react-icons/fc';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { register } from '@/stores/thunks/auth.thunk';
+import Button from '@/components/Button';
+import { Status } from '@/models/index.model';
 
 const Register = () => {
     const dispatch = useDispatch<AppDispatch>();
+    const state = useSelector((state: any) => state.auth);
 
     const formik = useFormik({
         initialValues: {
@@ -25,6 +28,7 @@ const Register = () => {
                 .oneOf([Yup.ref('password')], 'Mật khẩu không khớp')
                 .required('Nhập lại mật khẩu là bắt buộc'),
         }),
+
         onSubmit: (values) => {
             dispatch(
                 register({
@@ -113,9 +117,7 @@ const Register = () => {
                             <div className="text-red-500 text-sm">{formik.errors.confirm_password}</div>
                         ) : null}
                     </div>
-                    <button type="submit" className="w-full p-3 bg-orange-500 text-white rounded hover:bg-orange-600 transition">
-                        Đăng ký
-                    </button>
+                    <Button text='Đăng ký' isLoading={state.status === Status.PENDING} className="w-full p-3 bg-orange-500 text-white rounded hover:bg-orange-600 transition" />
                 </form>
                 <div className="flex items-center w-full my-6">
                     <div className="flex-grow border-t border-gray-300"></div>

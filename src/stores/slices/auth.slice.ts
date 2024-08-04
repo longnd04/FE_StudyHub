@@ -1,18 +1,16 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { login, logout, refreshToken, register, verify } from '../thunks/auth.thunk';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { forgotPasswpord, login, logout, register, resetPassword, verify } from '../thunks/auth.thunk';
 import { AuthActions, Status } from '@/models/index.model';
-
+import { IResponse } from '../client';
 const accessToken = localStorage.getItem('accessToken');
-const tokenExpiration = localStorage.getItem('tokenExpiration');
-const TOKEN_EXPIRATION_TIME = 15 * 60 * 1000;
 
 const initialState = {
-    isLogin: !!accessToken && !!tokenExpiration && parseInt(tokenExpiration, 10) > Date.now(),
+    isLogin: !!accessToken,
     user: null,
     status: Status.IDLE,
     message: '',
+    loginTime: 0,
     action: AuthActions.UNSET,
-    tokenExpiration: tokenExpiration ? parseInt(tokenExpiration, 10) : null,
 };
 
 export const authSlice = createSlice({
@@ -24,17 +22,13 @@ export const authSlice = createSlice({
             .addCase(login.pending, (state) => {
                 state.status = Status.PENDING;
             })
-            .addCase(login.fulfilled, (state, { payload }) => {
+            .addCase(login.fulfilled, (state, { payload }: PayloadAction<IResponse<any>>) => {
+                localStorage.setItem('accessToken', JSON.stringify(payload.metaData?.access_token));
+                localStorage.setItem('refreshToken', JSON.stringify(payload.metaData?.refresh_token));
+                state.loginTime = new Date().getTime() / 1000;
                 state.status = Status.FULFILLED;
-                const accessToken = payload.metaData?.access_token;
-                const refreshToken = payload.metaData?.refresh_token;
-                const tokenExpiration = Date.now() + TOKEN_EXPIRATION_TIME;
-                localStorage.setItem('accessToken', JSON.stringify(accessToken));
-                localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
-                localStorage.setItem('tokenExpiration', tokenExpiration.toString());
+                state.action = AuthActions.LOGIN;
                 state.isLogin = true;
-                state.user = payload.metaData;
-                state.tokenExpiration = tokenExpiration;
             })
             .addCase(login.rejected, (state) => {
                 state.status = Status.REJECTED;
@@ -46,6 +40,7 @@ export const authSlice = createSlice({
             })
             .addCase(register.fulfilled, (state) => {
                 state.status = Status.FULFILLED;
+                state.action = AuthActions.REGISTER;
             })
             .addCase(register.rejected, (state) => {
                 state.status = Status.REJECTED;
@@ -55,9 +50,10 @@ export const authSlice = createSlice({
             .addCase(verify.pending, (state) => {
                 state.status = Status.PENDING;
             })
-            .addCase(verify.fulfilled, (state, { payload }) => {
+            .addCase(verify.fulfilled, (state, { payload }: PayloadAction<IResponse<any>>) => {
                 state.status = Status.FULFILLED;
                 state.user = payload.metaData;
+                state.action = AuthActions.VERIFY;
             })
             .addCase(verify.rejected, (state) => {
                 state.status = Status.REJECTED;
@@ -68,36 +64,34 @@ export const authSlice = createSlice({
                 state.status = Status.PENDING;
             })
             .addCase(logout.fulfilled, (state) => {
-                state.status = Status.FULFILLED;
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
-                localStorage.removeItem('tokenExpiration');
+                state.action = AuthActions.LOGOUT;
                 state.isLogin = false;
-                state.user = null;
-                state.tokenExpiration = null;
+                state.status = Status.FULFILLED;
             })
             .addCase(logout.rejected, (state) => {
                 state.status = Status.REJECTED;
             });
-
         builder
-            .addCase(refreshToken.fulfilled, (state, { payload }) => {
-                const accessToken = payload.access_token;
-                const refreshToken = payload.refresh_token;
-                const tokenExpiration = Date.now() + TOKEN_EXPIRATION_TIME;
-                localStorage.setItem('accessToken', JSON.stringify(accessToken));
-                localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
-                localStorage.setItem('tokenExpiration', tokenExpiration.toString());
-                state.isLogin = true;
-                state.tokenExpiration = tokenExpiration;
+            .addCase(forgotPasswpord.pending, (state) => {
+                state.status = Status.PENDING;
             })
-            .addCase(refreshToken.rejected, (state) => {
-                state.isLogin = false;
-                state.user = null;
-                state.tokenExpiration = null;
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('refreshToken');
-                localStorage.removeItem('tokenExpiration');
+            .addCase(forgotPasswpord.fulfilled, (state) => {
+                state.status = Status.FULFILLED;
+            })
+            .addCase(forgotPasswpord.rejected, (state) => {
+                state.status = Status.REJECTED;
+            });
+        builder
+            .addCase(resetPassword.pending, (state) => {
+                state.status = Status.PENDING;
+            })
+            .addCase(resetPassword.fulfilled, (state) => {
+                state.status = Status.FULFILLED;
+            })
+            .addCase(resetPassword.rejected, (state) => {
+                state.status = Status.REJECTED;
             });
     },
 });

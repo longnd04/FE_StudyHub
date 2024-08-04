@@ -4,21 +4,36 @@ import { IThunkPayload } from '@/models/shared/api.model';
 
 const prefix = '/auth';
 
-export const login = createAsyncThunk('login', async (payload: IThunkPayload, thunkAPI) => {
+export const login = createAsyncThunk('auth/login', async (payload: IThunkPayload, { rejectWithValue }) => {
     try {
-        const { data } = await client.post(`${prefix}/login`, payload);
-        return data;
+        const { response, data } = await client.post<any>(`${prefix}/login`, payload);
+        return response.status >= 400 ? rejectWithValue(data) : data;
     } catch (error: any) {
-        return thunkAPI.rejectWithValue(error.response.data);
+        return rejectWithValue(error.response.data);
     }
 });
-
-export const register = createAsyncThunk('register', async (payload: IThunkPayload, thunkAPI) => {
+export const register = createAsyncThunk('auth/register', async (payload: IThunkPayload, { rejectWithValue }) => {
     try {
-        const { data } = await client.post(`${prefix}/register`, payload);
-        return data;
+        const { response, data } = await client.post<any>(`${prefix}/register`, payload);
+        return response.status >= 400 ? rejectWithValue(data) : data;
     } catch (error: any) {
-        return thunkAPI.rejectWithValue(error.response.data);
+        return rejectWithValue(error.response.data);
+    }
+});
+export const forgotPasswpord = createAsyncThunk('auth/forgotPasswpord', async (payload: IThunkPayload, { rejectWithValue }) => {
+    try {
+        const { response, data } = await client.post<any>(`${prefix}/forgot-password`, payload);
+        return response.status >= 400 ? rejectWithValue(data) : data;
+    } catch (error: any) {
+        return rejectWithValue(error.response.data);
+    }
+});
+export const resetPassword = createAsyncThunk('auth/reset-password', async (payload: IThunkPayload, { rejectWithValue }) => {
+    try {
+        const { response, data } = await client.post<any>(`${prefix}/reset-password`, payload);
+        return response.status >= 400 ? rejectWithValue(data) : data;
+    } catch (error: any) {
+        return rejectWithValue(error.response.data);
     }
 });
 
@@ -37,20 +52,5 @@ export const logout = createAsyncThunk('logout', async (__payload, thunkAPI) => 
         return data;
     } catch (error: any) {
         return thunkAPI.rejectWithValue(error.response.data);
-    }
-});
-
-export const refreshToken = createAsyncThunk('refreshToken', async (_, { rejectWithValue }) => {
-    try {
-        const response = await client.post(`${prefix}/refresh-token`, {
-            body: { refreshToken: client.tokens.refreshToken },
-        });
-        if (response.data.success) {
-            return response.data.metaData;
-        } else {
-            return rejectWithValue(response.data.message);
-        }
-    } catch (error: any) {
-        return rejectWithValue(error.message);
     }
 });

@@ -1,8 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Status } from '@/models/index.model';
 import { createCourse, deleteCourse, getAllCourse, getCourseById, updateCourse } from '../thunks/course.thunk';
 import { IInitialState } from '@/models/shared/api.model';
 import { ICourse } from '../module';
+import { IResponse } from '../client';
 
 export interface ICourseInitialState extends IInitialState {
     courses: ICourse[];
@@ -26,11 +27,11 @@ export const courseSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers(builder) {
-        builder.addCase(getAllCourse.fulfilled, (state, { payload }) => {
+        builder.addCase(getAllCourse.fulfilled, (state, { payload }: PayloadAction<IResponse<any>>) => {
             state.status = Status.FULFILLED;
             state.courses = payload.metaData; // Fix: Update the courses field
         });
-        builder.addCase(getCourseById.fulfilled, (state, { payload }) => {
+        builder.addCase(getCourseById.fulfilled, (state, { payload }: PayloadAction<IResponse<any>>) => {
             state.status = Status.FULFILLED;
             state.activeCourse = payload.metaData; // Update the activeCourse field
         });
@@ -61,7 +62,7 @@ export const courseSlice = createSlice({
         builder.addCase(deleteCourse.pending, (state) => {
             state.status = Status.PENDING;
         });
-        builder.addCase(deleteCourse.fulfilled, (state, { payload }) => {
+        builder.addCase(deleteCourse.fulfilled, (state, { payload }: any) => {
             state.status = Status.FULFILLED;
             state.message = 'Delete successfully';
             state.courses = state.courses.filter((course) => course.id !== payload);

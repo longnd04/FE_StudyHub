@@ -1,31 +1,34 @@
 import { images } from '@/assets/images';
+import Button from '@/components/Button';
+import { Status } from '@/models/index.model';
 import { AppDispatch } from '@/stores/store';
 import { login } from '@/stores/thunks/auth.thunk';
-import { useFormik } from 'formik';
+import { Formik } from 'formik';
 import { FcGoogle } from 'react-icons/fc';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 const Login = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const formik = useFormik({
-        initialValues: {
-            email: '',
-            password: '',
-        },
-        validationSchema: Yup.object({
-            email: Yup.string().email().required('Email là bắt buộc'),
-            password: Yup.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự').required('Mật khẩu là bắt buộc'),
-        }),
-        onSubmit: (values) => {
-            dispatch(
-                login({
-                    body: values,
-                }),
-            );
-        },
+    const state = useSelector((state: any) => state.auth);
+    const initialValues = {
+        email: '',
+        password: '',
+    };
+
+    const validationSchema = Yup.object({
+        email: Yup.string().email('Email không hợp lệ!').required('Email là bắt buộc'),
+        password: Yup.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự').required('Mật khẩu là bắt buộc'),
     });
+
+    const handleLogin = (values: any) => {
+        dispatch(
+            login({
+                body: values,
+            }),
+        );
+    };
 
     return (
         <div className="flex h-screen bg-gray-100 items-center justify-center">
@@ -35,45 +38,51 @@ const Login = () => {
                 <p className="text-center text-xs text-red-500 mb-4">
                     Mỗi người nên sử dụng một tài khoản, tài khoản nhiều người sử dụng chung sẽ bị khóa
                 </p>
-                <form onSubmit={formik.handleSubmit} className="w-full">
-                    <div className="w-full mb-6">
-                        <div className="relative">
-                            <input
-                                type="text"
-                                name="email"
-                                placeholder="Email"
-                                className="placeholder:text-m-medium border-b border-gray-300 text-m-medium peer h-full w-full
-                                 bg-transparent py-2 placeholder-gray-400 outline-none"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.email}
-                            />
-                            <div className="absolute bottom-0 left-0 right-0 h-[1px] w-0 bg-orange-500 transition-size duration-500 peer-focus:w-full"></div>
-                        </div>
-                        {formik.touched.email && formik.errors.email ? <div className="text-red-500 text-sm ">{formik.errors.email}</div> : null}
-                    </div>
-                    <div className="w-full mb-6">
-                        <div className="relative">
-                            <input
-                                type="password"
-                                name="password"
-                                placeholder="Password"
-                                className="placeholder:text-m-medium border-b border-gray-300 text-m-medium peer
-                                 h-full w-full bg-transparent py-2 placeholder-gray-400 outline-none"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.password}
-                            />
-                            <div className="absolute bottom-0 left-0 right-0 h-[1px] w-0 bg-orange-500 transition-size duration-500 peer-focus:w-full"></div>
-                        </div>
-                        {formik.touched.password && formik.errors.password ? (
-                            <div className="text-red-500 text-sm ">{formik.errors.password}</div>
-                        ) : null}
-                    </div>
-                    <button type="submit" className="w-full p-3 bg-orange-500 text-white rounded hover:bg-orange-600 transition">
-                        Đăng nhập
-                    </button>
-                </form>
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={handleLogin}
+                >
+                    {({ handleSubmit, values, setFieldValue, errors, touched, handleBlur }) => (
+                        <form onSubmit={handleSubmit} className="w-full">
+                            <div className="w-full mb-6">
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        name="email"
+                                        placeholder="Email"
+                                        className="placeholder:text-m-medium border-b border-gray-300 text-m-medium peer h-full w-full
+                                            bg-transparent py-2 placeholder-gray-400 outline-none"
+                                        onChange={(e) => setFieldValue('email', e.target.value)}
+                                        onBlur={handleBlur}
+                                        value={values.email}
+                                    />
+                                    <div className="absolute bottom-0 left-0 right-0 h-[1px] w-0 bg-orange-500 transition-size duration-500 peer-focus:w-full"></div>
+                                </div>
+                                {touched.email && errors.email ? <div className="text-red-500 text-sm ">{errors.email}</div> : null}
+                            </div>
+                            <div className="w-full mb-6">
+                                <div className="relative">
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        placeholder="Password"
+                                        className="placeholder:text-m-medium border-b border-gray-300 text-m-medium peer
+                                            h-full w-full bg-transparent py-2 placeholder-gray-400 outline-none"
+                                        onChange={(e) => setFieldValue('password', e.target.value)}
+                                        onBlur={handleBlur}
+                                        value={values.password}
+                                    />
+                                    <div className="absolute bottom-0 left-0 right-0 h-[1px] w-0 bg-orange-500 transition-size duration-500 peer-focus:w-full"></div>
+                                </div>
+                                {touched.password && errors.password ? (
+                                    <div className="text-red-500 text-sm ">{errors.password}</div>
+                                ) : null}
+                            </div>
+                            <Button isLoading={state.status === Status.PENDING} text='Đăng nhập' className="w-full p-3 bg-orange-500 text-white rounded hover:bg-orange-600 transition" />
+                        </form>
+                    )}
+                </Formik>
                 <div className="flex items-center w-full my-6">
                     <div className="flex-grow border-t border-gray-300"></div>
                     <span className="text-[14px] mx-4 text-gray-500 font-semibold uppercase">Hoặc</span>

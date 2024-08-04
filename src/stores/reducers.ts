@@ -6,3 +6,4 @@ export const reducers = combineReducers({
     auth: authSlice.reducer,
     course: courseSlice.reducer,
 });
+export type RootStateType = ReturnType<typeof reducers>;
