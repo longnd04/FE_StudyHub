@@ -17,26 +17,10 @@ export interface IResponse<MetaDataType> {
 export const client = {
     SERVER_URL: 'https://be-studyhub.onrender.com',
     tokens: {
-        accessToken: () => {
-            try {
-                return JSON.parse(localStorage.getItem('accessToken') as string);
-            } catch (e) {
-                return '';
-            }
-        },
-        refreshToken: () => {
-            try {
-                return JSON.parse(localStorage.getItem('refreshToken') as string);
-            } catch (e) {
-                return '';
-            }
-        },
+        accessToken: () => localStorage.getItem('accessToken') || '',
+        refreshToken: () => localStorage.getItem('refreshToken') || '',
     },
-    async send<MetaDataType>(
-        path: string,
-        method: methodType = 'GET',
-        payload: IThunkPayload = {},
-    ): Promise<ClientReturnType<IResponse<MetaDataType>>> {
+    async send<MetaDataType>(path: string, method: methodType = 'GET', payload: IThunkPayload = {}): Promise<ClientReturnType<IResponse<MetaDataType>>> {
         const { headers = {}, body, query = {} } = payload;
 
         let queryParams = new URLSearchParams(query as Record<string, string>).toString();
@@ -46,7 +30,10 @@ export const client = {
             method,
         };
         if (this.tokens.accessToken()) {
-            headers.Authorization = `Bearer ${this.tokens.accessToken()}`;
+            const token = this.tokens.accessToken();
+            if (token && token.trim() !== '') {
+                headers.Authorization = `Bearer ${token}`;
+            }
         }
 
         if (body) {

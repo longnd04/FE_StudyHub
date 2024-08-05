@@ -43,9 +43,7 @@ const Register = () => {
             <div className="flex flex-col items-center bg-white w-[400px] p-8 rounded-lg shadow-lg">
                 <img src={images.logoF8} className="w-16 mb-6 rounded-lg" alt="Logo" />
                 <div className="text-2xl font-semibold mb-2">Đăng ký tài khoản Study Hub</div>
-                <p className="text-center text-xs text-red-500 mb-4">
-                    Mỗi người nên sử dụng một tài khoản, tài khoản nhiều người sử dụng chung sẽ bị khóa
-                </p>
+                <p className="text-center text-xs text-red-500 mb-4">Mỗi người nên sử dụng một tài khoản, tài khoản nhiều người sử dụng chung sẽ bị khóa</p>
                 <form onSubmit={formik.handleSubmit} className="w-full">
                     <div className="w-full mb-6 relative">
                         <div className="relative">
@@ -77,9 +75,7 @@ const Register = () => {
                             />
                             <div className="absolute bottom-0 left-0 right-0 h-[1px] w-0 bg-orange-500 transition-size duration-500 peer-focus:w-full"></div>
                         </div>
-                        {formik.touched.user_name && formik.errors.user_name ? (
-                            <div className="text-red-500 text-sm">{formik.errors.user_name}</div>
-                        ) : null}
+                        {formik.touched.user_name && formik.errors.user_name ? <div className="text-red-500 text-sm">{formik.errors.user_name}</div> : null}
                     </div>
                     <div className="w-full mb-6 relative">
                         <div className="relative">
@@ -95,9 +91,7 @@ const Register = () => {
                             />
                             <div className="absolute bottom-0 left-0 right-0 h-[1px] w-0 bg-orange-500 transition-size duration-500 peer-focus:w-full"></div>
                         </div>
-                        {formik.touched.password && formik.errors.password ? (
-                            <div className="text-red-500 text-sm">{formik.errors.password}</div>
-                        ) : null}
+                        {formik.touched.password && formik.errors.password ? <div className="text-red-500 text-sm">{formik.errors.password}</div> : null}
                     </div>
                     <div className="w-full mb-6 relative">
                         <div className="relative">
@@ -117,7 +111,11 @@ const Register = () => {
                             <div className="text-red-500 text-sm">{formik.errors.confirm_password}</div>
                         ) : null}
                     </div>
-                    <Button text='Đăng ký' isLoading={state.status === Status.PENDING} className="w-full p-3 bg-orange-500 text-white rounded hover:bg-orange-600 transition" />
+                    <Button
+                        text="Đăng ký"
+                        isLoading={state.status === Status.PENDING}
+                        className="w-full p-3 bg-orange-500 text-white rounded hover:bg-orange-600 transition"
+                    />
                 </form>
                 <div className="flex items-center w-full my-6">
                     <div className="flex-grow border-t border-gray-300"></div>

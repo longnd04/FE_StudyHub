@@ -17,6 +17,7 @@ export interface IFetchOptions extends IFetchHeaders {
 }
 
 export interface IThunkPayload {
+    id?: string;
     body?: any;
     query?: object;
     headers?: IFetchHeaders;

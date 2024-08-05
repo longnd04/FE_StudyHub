@@ -54,3 +54,27 @@ export const logout = createAsyncThunk('logout', async (__payload, thunkAPI) => 
         return thunkAPI.rejectWithValue(error.response.data);
     }
 });
+export const getAllUser = createAsyncThunk('getAllUser', async (payload: IThunkPayload, thunkAPI) => {
+    try {
+        const { data } = await client.get(`/users`, payload);
+        return data;
+    } catch (error: any) {
+        return thunkAPI.rejectWithValue(error.response.data);
+    }
+});
+export const getProfile = createAsyncThunk('getProfile', async (payload: IThunkPayload, thunkAPI) => {
+    try {
+        const { data } = await client.post(`${prefix}/profile`, payload);
+        return data;
+    } catch (error: any) {
+        return thunkAPI.rejectWithValue(error.response.data);
+    }
+});
+export const updateUser = createAsyncThunk('updateUser', async (payload: IThunkPayload, thunkAPI) => {
+    try {
+        const { data } = await client.patch(`/users/${payload.param}`, payload);
+        return data;
+    } catch (error: any) {
+        return thunkAPI.rejectWithValue(error.response.data);
+    }
+});

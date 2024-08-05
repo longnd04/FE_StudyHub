@@ -47,12 +47,8 @@ const Course: React.FC = () => {
             okType: 'danger',
             cancelText: 'No',
             onOk: async () => {
-                try {
-                    await dispatch(deleteCourse(record.key as string));
-                    setCourses((prevCourses) => prevCourses.filter((course) => course.id !== record.key));
-                } catch (error) {
-                    console.error('Failed to delete course:', error);
-                }
+                await dispatch(deleteCourse(record.key as string));
+                setCourses((prevCourses) => prevCourses.filter((course) => course.id !== record.key));
             },
         });
     };

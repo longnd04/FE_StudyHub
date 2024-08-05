@@ -45,9 +45,6 @@ export const courseSlice = createSlice({
         builder.addCase(createCourse.rejected, (state, { payload }: any) => {
             state.status = Status.REJECTED;
             state.message = payload.errors;
-            console.log('====================================');
-            console.log(state.message);
-            console.log('====================================');
         });
         builder.addCase(updateCourse.pending, (state) => {
             state.status = Status.PENDING;

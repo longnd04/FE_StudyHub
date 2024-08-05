@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FormikRefType } from '@/models/shared/api.model';
 import { AppDispatch } from '@/stores/store';
 import { createCourse, updateCourse } from '@/stores/thunks/course.thunk';

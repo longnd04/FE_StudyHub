@@ -14,7 +14,7 @@ const ResetPassword = () => {
         const queryParams = new URLSearchParams(location.search);
         const reset_password_code = queryParams.get('reset_password_code');
 
-        dispatch(resetPassword({ body: { password, confirm_password, reset_password_code }, }))
+        dispatch(resetPassword({ body: { password, confirm_password, reset_password_code } }));
     };
 
     return (
@@ -49,8 +49,10 @@ const ResetPassword = () => {
                     />
                     <div className="absolute bottom-0 left-0 right-0 h-[1px] w-0 bg-orange-500 transition-size duration-500 peer-focus:w-full"></div>
                 </div>
-                
-                <button onClick={handleSubmit} className="w-full p-3 bg-orange-500 text-white rounded hover:bg-orange-600">Đặt lại mật khẩu</button>
+
+                <button onClick={handleSubmit} className="w-full p-3 bg-orange-500 text-white rounded hover:bg-orange-600">
+                    Đặt lại mật khẩu
+                </button>
                 <div className="text-center mt-6">
                     <p className="text-[10px] text-gray-500">
                         Việc bạn tiếp tục sử dụng trang web này đồng nghĩa bạn đồng ý với

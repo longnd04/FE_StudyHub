@@ -61,7 +61,6 @@ export const routes: IRoute[] = [
                 path: '/components',
                 element: () => <Components />,
             },
-
         ],
     },
     {
@@ -69,7 +68,7 @@ export const routes: IRoute[] = [
         element: Login,
     },
     {
-        path: '/auth/reset-password',
+        path: '/reset-password',
         element: ResetPassword,
     },
     {

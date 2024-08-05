@@ -12,11 +12,9 @@ const Home = () => {
         setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
     };
 
-    const { courses } = useSelector((state: any) => state.course)
-    console.log(courses);
+    const { courses } = useSelector((state: any) => state.course);
 
-
-    const dispatch = useDispatch<AppDispatch>()
+    const dispatch = useDispatch<AppDispatch>();
     useEffect(() => {
         dispatch(getAllCourse({ query: {} }));
     }, [dispatch]);
@@ -59,26 +57,25 @@ const Home = () => {
                     </button>
                 </div>
             </div>
-            <div className='my-10'>
-                <div className='display-l-bold '>Khoá học Pro</div>
-                <div className='flex gap-10 my-10'>
+            <div className="my-10">
+                <div className="display-l-bold ">Khoá học Pro</div>
+                <div className="flex gap-10 my-10">
                     {courses.map((course: ICourse, index: number) => (
-                        <div className='w-[300px] flex flex-col  rounded-xl overflow-hidden shadow-lg' key={index}>
-                            <img className='w-full h-auto' src={course.thumbnail} alt={course.title} />
-                            <div className=' bg-gray-50 flex flex-col gap-2 px-4'>
-                                <div className='pt-4 text-l-semibold'>{course.title}</div>
-                                <div className='flex gap-3'>
-                                    <div className='text-l line-through text-gray-700'>{course.regular_price}đ</div>
-                                    <div className='text-l-regular text-red-500'>{course.sale_price}đ</div>
+                        <div className="w-[300px] flex flex-col  rounded-xl overflow-hidden shadow-lg" key={index}>
+                            <img className="w-full h-auto" src={course.thumbnail} alt={course.title} />
+                            <div className=" bg-gray-50 flex flex-col gap-2 px-4">
+                                <div className="pt-4 text-l-semibold">{course.title}</div>
+                                <div className="flex gap-3">
+                                    <div className="text-l line-through text-gray-700">{course.regular_price}đ</div>
+                                    <div className="text-l-regular text-red-500">{course.sale_price}đ</div>
                                 </div>
-                                <div className='text-gray-500'>{course.total_time}</div>
-                                <div className='text-gray-500'>{course.students}</div>
+                                <div className="text-gray-500">{course.total_time}</div>
+                                <div className="text-gray-500">{course.students}</div>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
-
         </div>
     );
 };

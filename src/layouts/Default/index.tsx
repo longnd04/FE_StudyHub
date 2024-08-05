@@ -1,33 +1,54 @@
 import { useState, useEffect } from 'react';
 import { ConfigProvider, Input, Popover } from 'antd';
 import { images } from '@/assets/images';
-import { CiLogout, CiSearch, CiUser } from 'react-icons/ci';
+import { CiLogout, CiSearch } from 'react-icons/ci';
 import { IoIosNotifications, IoMdHome } from 'react-icons/io';
 import { FaRoad } from 'react-icons/fa';
 import { Link, Outlet } from 'react-router-dom';
 import { AiOutlineNotification } from 'react-icons/ai';
-import { useDispatch } from 'react-redux';
-import { logout } from '@/stores/thunks/auth.thunk';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProfile, logout } from '@/stores/thunks/auth.thunk';
 import { AppDispatch } from '@/stores/store';
 import Button from '@/components/Button';
+import { RiAdminLine } from 'react-icons/ri';
+import { CgProfile } from 'react-icons/cg';
 
 const DefaultLayout = () => {
     const [selectedNav, setSelectedNav] = useState('home');
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
+    const { user } = useSelector((state: any) => state.auth);
+    useEffect(() => {
+        dispatch(getProfile({}));
+    }, [dispatch]);
+    const checkPemisson = localStorage.getItem('user');
 
     useEffect(() => {
         const accessToken = localStorage.getItem('accessToken');
         const refreshToken = localStorage.getItem('refreshToken');
-        setIsAuthenticated(!!accessToken && !!refreshToken );
+        setIsAuthenticated(!!accessToken && !!refreshToken);
     }, []);
 
     const settingsContent = (
-        <div>
+        <div className="w-[300px]">
+            <div className=" flex gap-5 pb-5 pt-3 px-2">
+                <img className="w-[50px] h-[50px] shrink-0 rounded-full" src={user?.avatar} alt="" />
+                <div>
+                    <div className="text-l-semibold">{user?.user_name}</div>
+                    <div>{user?.email}</div>
+                </div>
+            </div>
+            {checkPemisson === 'ADMIN' && (
+                <Link className="py-2 px-5 hover:bg-primary-100 hover:rounded-md hover:text-black cursor-pointer flex items-center" to={'/admin'}>
+                    <RiAdminLine className="mr-2" size={18} />
+                    <div>Trang quản trị</div>
+                </Link>
+            )}
             <Link className="py-2 px-5 hover:bg-primary-100 hover:rounded-md hover:text-black cursor-pointer flex items-center" to={'/profile'}>
-                <CiUser size={18} className="mr-2" />
+                <CgProfile size={18} className="mr-2" />
                 <div>Profile</div>
             </Link>
+
             <hr className="border-primary-100 my-1" />
             <div className="py-2 px-5 hover:bg-primary-100 hover:rounded-md cursor-pointer flex items-center" onClick={() => dispatch(logout())}>
                 <CiLogout size={18} className="mr-2 text-red-500" />
@@ -64,21 +85,25 @@ const DefaultLayout = () => {
                             className="bg-[#F5F7FA] placeholder:text-[#8BA3CB] rounded-full py-2 w-[400px]"
                         />
                     </div>
-                    {
-                        isAuthenticated && (
-                            <div className="flex items-center gap-5">
-                                <div className="text-gray-700 text-m-medium">Khoá học của tôi</div>
-                                <IoIosNotifications size={18} />
-                                <Popover content={settingsContent} trigger="click" placement="bottom">
-                                    <img className="w-[29px] h-[29px] rounded-full" src={images.logoF8} alt="" />
-                                </Popover>
-                            </div>
-                        )
-                    }
+                    {isAuthenticated && (
+                        <div className="flex items-center gap-5">
+                            <div className="text-gray-700 text-m-medium">Khoá học của tôi</div>
+                            <IoIosNotifications size={18} />
+                            <Popover content={settingsContent} trigger="click" placement="bottom">
+                                <img className="w-[29px] h-[29px] rounded-full" src={user?.avatar} alt="" />
+                            </Popover>
+                        </div>
+                    )}
                     {!isAuthenticated && (
-                        <div className='flex gap-5'>
-                            <Link to={'/register'}>  <Button type='ghost' text='Đăng ký' /></Link>
-                            <Link to={'/login'}> <Button text='Đăng nhập' /></Link>
+                        <div className="flex gap-5">
+                            <Link to={'/register'}>
+                                {' '}
+                                <Button type="ghost" text="Đăng ký" />
+                            </Link>
+                            <Link to={'/login'}>
+                                {' '}
+                                <Button text="Đăng nhập" />
+                            </Link>
                         </div>
                     )}
                 </header>

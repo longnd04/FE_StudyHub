@@ -16,11 +16,7 @@ export const renderRoutes = (routes: IRoute[], initPath = '/') => {
                             <Route path="/" element={<Middleware />}>
                                 {Layout ? (
                                     <Route path="/" element={<Layout />}>
-                                        {Component ? (
-                                            <Route path={completePath} element={<Component />} />
-                                        ) : (
-                                            renderRoutes(route.pages ?? [], completePath)
-                                        )}
+                                        {Component ? <Route path={completePath} element={<Component />} /> : renderRoutes(route.pages ?? [], completePath)}
                                     </Route>
                                 ) : Component ? (
                                     <Route path={completePath} element={<Component />} />

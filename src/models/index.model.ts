@@ -10,4 +10,6 @@ export enum AuthActions {
     LOGOUT = 'logout',
     REGISTER = 'register',
     VERIFY = 'verify',
+    FORGOTPASSWORD = 'forgotpassword',
+    RESETPASSWORD = 'resettpassword',
 }

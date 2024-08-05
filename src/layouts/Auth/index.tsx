@@ -1,4 +1,4 @@
-import { useState, ReactNode } from 'react';
+import { useState, ReactNode, useEffect } from 'react';
 import { Layout, Menu, ConfigProvider, Input, Popover } from 'antd';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import logoF8 from '@/assets/images/logo_f8.png';
@@ -11,6 +11,9 @@ import { images } from '@/assets/images';
 import { IoIosNotificationsOutline } from 'react-icons/io';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { LuUser } from 'react-icons/lu';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from '@/stores/store';
+import { getProfile } from '@/stores/thunks/auth.thunk';
 
 const { Content, Footer, Sider } = Layout;
 
@@ -41,7 +44,11 @@ const theme = {
 const DefaultLayoutAdmin = () => {
     const [collapsed, setCollapsed] = useState(false);
     const navigate = useNavigate();
-
+    const dispatch = useDispatch<AppDispatch>();
+    const { user } = useSelector((state: any) => state.auth);
+    useEffect(() => {
+        dispatch(getProfile({}));
+    }, [dispatch]);
     const menuItems: IMenuItem[] = [
         {
             id: '1',
@@ -179,7 +186,7 @@ const DefaultLayoutAdmin = () => {
                                 <IoIosNotificationsOutline className="text-red-500" size={25} />
                             </div>
                             <div>
-                                <img className="w-[45px] rounded-full" src={images.logoF8} alt="" />
+                                <img className="w-[45px] h-[45px] rounded-full" src={user?.avatar} alt="" />
                             </div>
                         </div>
                     </div>
