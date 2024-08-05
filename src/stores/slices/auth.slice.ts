@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { forgotPasswpord, getAllUser, getProfile, login, logout, register, resetPassword, updateUser, verify } from '../thunks/auth.thunk';
+import { forgotPasswpord, getProfile, login, logout, register, resetPassword, updateUser, verify } from '../thunks/auth.thunk';
 import { AuthActions, Status } from '@/models/index.model';
 import { IResponse } from '../client';
 
@@ -116,13 +116,6 @@ export const authSlice = createSlice({
             .addCase(resetPassword.rejected, (state) => {
                 state.status = Status.REJECTED;
             });
-        builder.addCase(getAllUser.fulfilled, (state, { payload }) => {
-            state.user = payload.metaData;
-            state.status = Status.FULFILLED;
-            state.isLogin = !!payload.metaData;
-            state.isLogin = true;
-            state.user = payload.metaData;
-        });
         builder
             .addCase(updateUser.pending, (state) => {
                 state.status = Status.PENDING;

@@ -76,7 +76,7 @@ const DefaultLayout = () => {
                 <header className="flex justify-between border-b px-8 py-3 items-center">
                     <div className="flex items-center gap-3">
                         <img className="w-[39px] h-[39px] rounded-lg" src={images.logoF8} alt="" />
-                        <div className="text-l-semibold">Học Lập Trình Để Đi Làm</div>
+                        <div className="text-l-semibold">Học Lập Trình Để Vui</div>
                     </div>
                     <div>
                         <Input

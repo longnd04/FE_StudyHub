@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/stores/store';
 import { getProfile, updateUser } from '@/stores/thunks/auth.thunk';
-import { Col, Row, Modal, notification, message } from 'antd'; // Import notification
+import { Col, Row, Modal, message } from 'antd';
 import { BsPencil } from 'react-icons/bs';
 import Button from '@/components/Button';
 import InputTextNumber from '@/components/InputTextNumber';

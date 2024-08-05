@@ -7,6 +7,7 @@ import CreateCourse from '@/pages/admin/Course/CreateCourse/CreateCourse';
 import UpdateCourse from '@/pages/admin/Course/UpdateCourse/UpdateCourse';
 import Dashboard from '@/pages/admin/Dashboard/Dashboard';
 import Products from '@/pages/admin/Products/Products';
+import Role from '@/pages/admin/Role/Role';
 import Components from '@/pages/Components/Components';
 import ForgotPassword from '@/pages/ForgotPassword/ForgotPassword';
 import Home from '@/pages/Home/Home';
@@ -52,6 +53,10 @@ export const routes: IRoute[] = [
             {
                 path: '/course/update/:id',
                 element: () => <UpdateCourse />,
+            },
+            {
+                path: '/role',
+                element: () => <Role />,
             },
             {
                 path: '/product',

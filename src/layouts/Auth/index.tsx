@@ -6,14 +6,13 @@ import { IoPieChartOutline, IoSettingsOutline } from 'react-icons/io5';
 import { LiaBookSolid } from 'react-icons/lia';
 import { CiLogout, CiSearch, CiUser } from 'react-icons/ci';
 import { RxComponentNone } from 'react-icons/rx';
-import { GoDeviceCameraVideo } from 'react-icons/go';
-import { images } from '@/assets/images';
+import { GoDeviceCameraVideo, GoPeople } from 'react-icons/go';
 import { IoIosNotificationsOutline } from 'react-icons/io';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { LuUser } from 'react-icons/lu';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/stores/store';
-import { getProfile } from '@/stores/thunks/auth.thunk';
+import { getProfile, logout } from '@/stores/thunks/auth.thunk';
 
 const { Content, Footer, Sider } = Layout;
 
@@ -76,22 +75,16 @@ const DefaultLayoutAdmin = () => {
             items: [
                 {
                     id: '3.1',
-                    label: 'Role',
-                },
-                {
-                    id: '3.2',
-                    label: 'Permission',
-                },
-                {
-                    id: '3.3',
-                    label: 'Lesson',
+                    path: '/admin/role',
+                    icon: <GoPeople size={25} />,
+                    label: 'Quản lý user',
                 },
             ],
         },
         {
             id: '4',
             label: 'Profile',
-            path: '/admin/profile',
+            path: '/profile',
             icon: <LuUser size={25} />,
         },
         {
@@ -103,14 +96,16 @@ const DefaultLayoutAdmin = () => {
     ];
     const settingsContent = (
         <div>
-            <Link className="py-2 px-5 hover:bg-primary-100 hover:rounded-md hover:text-black cursor-pointer flex items-center" to={'/admin/profile'}>
+            <Link className="py-2 px-5 hover:bg-primary-100 hover:rounded-md hover:text-black cursor-pointer flex items-center" to={'/profile'}>
                 <CiUser size={18} className="mr-2" />
                 <div>Profile</div>
             </Link>
             <hr className="border-primary-100 my-1" />
             <div className="py-2 px-5 hover:bg-primary-100 hover:rounded-md cursor-pointer flex items-center">
                 <CiLogout size={18} className="mr-2 text-red-500" />
-                <span className="text-red-500">Logout</span>
+                <span onClick={() => dispatch(logout())} className="text-red-500">
+                    Logout
+                </span>
             </div>
         </div>
     );

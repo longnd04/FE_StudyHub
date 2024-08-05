@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllCourse } from '@/stores/thunks/course.thunk';
 import { AppDispatch } from '@/stores/store';
 import { ICourse } from '@/stores/module';
+import { MdPeopleAlt } from 'react-icons/md';
+import { FaClock } from 'react-icons/fa';
 
 const Home = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -59,18 +61,26 @@ const Home = () => {
             </div>
             <div className="my-10">
                 <div className="display-l-bold ">Khoá học Pro</div>
-                <div className="flex gap-10 my-10">
+                <div className="flex gap-10 my-10 flex-wrap">
                     {courses.map((course: ICourse, index: number) => (
                         <div className="w-[300px] flex flex-col  rounded-xl overflow-hidden shadow-lg" key={index}>
                             <img className="w-full h-auto" src={course.thumbnail} alt={course.title} />
-                            <div className=" bg-gray-50 flex flex-col gap-2 px-4">
+                            <div className=" bg-gray-50 flex flex-col gap-4 pb-4 px-4">
                                 <div className="pt-4 text-l-semibold">{course.title}</div>
                                 <div className="flex gap-3">
                                     <div className="text-l line-through text-gray-700">{course.regular_price}đ</div>
                                     <div className="text-l-regular text-red-500">{course.sale_price}đ</div>
                                 </div>
-                                <div className="text-gray-500">{course.total_time}</div>
-                                <div className="text-gray-500">{course.students}</div>
+                                <div className="flex justify-between">
+                                    <div className="text-gray-500 flex items-center gap-2">
+                                        <FaClock size={18} />
+                                        {course.total_time}
+                                    </div>
+                                    <div className="text-gray-500  flex items-center gap-2">
+                                        <MdPeopleAlt size={18} />
+                                        {course.students}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     ))}

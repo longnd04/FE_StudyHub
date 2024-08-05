@@ -29,11 +29,11 @@ export const courseSlice = createSlice({
     extraReducers(builder) {
         builder.addCase(getAllCourse.fulfilled, (state, { payload }: PayloadAction<IResponse<any>>) => {
             state.status = Status.FULFILLED;
-            state.courses = payload.metaData; // Fix: Update the courses field
+            state.courses = payload.metaData;
         });
         builder.addCase(getCourseById.fulfilled, (state, { payload }: PayloadAction<IResponse<any>>) => {
             state.status = Status.FULFILLED;
-            state.activeCourse = payload.metaData; // Update the activeCourse field
+            state.activeCourse = payload.metaData;
         });
         builder.addCase(createCourse.pending, (state) => {
             state.status = Status.PENDING;
